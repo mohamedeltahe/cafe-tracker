@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>متابعة باقات الكافيهات</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--ink:#172033;--muted:#65728a;--line:#dfe6ef;--blue:#2257a5;--green:#177245;--amber:#a45d00;--red:#b42318;--field:#fff;--field-line:#cbd5e1;--table-head:#f0f4f9;--stat-bg:#fbfdff;--secondary-bg:#e8eef7;--secondary-ink:#18375f;--alert-bg:#f8fafc;--soft-red:#fff0f0;--soft-amber:#fff7e6;--soft-blue:#edf5ff;--soft-green:#edfbf2}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,sans-serif;line-height:1.55;transition:background .18s ease,color .18s ease}
+header{background:#142d4e;color:white;padding:18px 20px}.site-header{display:flex;justify-content:space-between;align-items:center;gap:14px}.site-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.site-header h1{margin:0;font-size:22px}.site-header p{margin:5px 0 0;color:#d4e1f2;font-size:13px}.theme-toggle{background:#344d6d;color:#fff;border:1px solid #7084a0;white-space:nowrap}
+main{max-width:1250px;margin:20px auto;padding:0 14px}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:15px;box-shadow:0 3px 14px #12233a08}
+h2{font-size:18px;margin:0 0 12px}.muted{color:var(--muted);font-size:13px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+label{display:block;font-size:13px;font-weight:bold;margin-bottom:5px}input,textarea,select{width:100%;padding:10px;border:1px solid var(--field-line);border-radius:8px;font:inherit;background:var(--field);color:var(--ink)}.checkline{display:flex;align-items:center;gap:9px;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:var(--stat-bg);min-height:44px}.checkline input{width:auto;min-width:17px;height:17px;margin:0;accent-color:var(--blue)}.checkline label{margin:0;font-size:13px;cursor:pointer}button{border:0;border-radius:8px;padding:10px 14px;font:inherit;cursor:pointer;background:var(--blue);color:#fff;font-weight:bold}button.secondary{background:var(--secondary-bg);color:var(--secondary-ink)}button.danger{background:#b42318}button.good{background:#177245}button:disabled{opacity:.5;cursor:not-allowed}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.hidden{display:none!important}.status{padding:10px 12px;border-radius:8px;background:#eaf2ff;margin-bottom:12px;font-size:14px}.status.error{background:#feeceb;color:#8d1711}.status.ok{background:#e6f7ed;color:#145c36}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.stat{padding:13px;border:1px solid var(--line);border-radius:10px;background:var(--stat-bg)}.stat strong{display:block;font-size:24px}.stat span{font-size:13px;color:var(--muted)}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:900px}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:right;font-size:13px}th{background:var(--table-head);white-space:nowrap}.pill{display:inline-block;border-radius:30px;padding:3px 8px;font-size:12px;font-weight:bold}.okpill{background:#dcfce7;color:#166534}.warnpill{background:#fef3c7;color:#92400e}.badpill{background:#fee2e2;color:#991b1b}.toolbar{display:flex;gap:9px;flex-wrap:wrap;align-items:end}.toolbar>div{flex:1;min-width:170px}.notice{padding:10px;border-radius:8px;background:var(--soft-amber);border:1px solid #f4d49b;color:#704a00;margin:8px 0;font-size:13px}.smallbtn{padding:6px 9px;font-size:12px;margin:2px}.cafe-number{display:inline-flex;align-items:center;justify-content:center;min-width:27px;height:25px;margin-left:7px;padding:0 6px;border-radius:7px;background:var(--secondary-bg);color:var(--secondary-ink);font-weight:bold;font-size:12px;direction:ltr;vertical-align:middle}.footer{font-size:12px;color:var(--muted);text-align:center;padding:14px}
+.alerts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:12px;margin-top:4px}.alert-group{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;min-width:0}.alert-group h3{font-size:15px;margin:0 0 10px;display:flex;align-items:center;gap:7px}.alert-count{font-size:12px;padding:2px 8px;border-radius:20px;background:var(--secondary-bg);color:var(--secondary-ink)}.alert-items{display:grid;gap:7px}.alert-item{border:1px solid var(--line);background:var(--alert-bg);padding:9px;border-radius:9px;display:grid;gap:3px;overflow-wrap:anywhere}.alert-item strong{font-size:13px}.alert-item span,.alert-empty{font-size:12px;color:var(--muted)}.alert-empty{margin:0;padding:8px 2px}.alert-urgent{border-top:3px solid #dc2626}.alert-low{border-top:3px solid #d97706}.alert-tomorrow{border-top:3px solid #2563eb}.alert-overdue{border-top:3px solid #991b1b}.alert-today{border-top:3px solid #0d9488}
+body.dark-mode{--bg:#18191a;--card:#242526;--ink:#e4e6eb;--muted:#b0b3b8;--line:#3e4042;--blue:#2374e1;--field:#3a3b3c;--field-line:#56585a;--table-head:#303133;--stat-bg:#2c2d2f;--secondary-bg:#3a3b3c;--secondary-ink:#e4e6eb;--alert-bg:#303133;--soft-red:#3d2427;--soft-amber:#3a3020;--soft-blue:#202f42;--soft-green:#20372b;background:var(--bg)}
+body.dark-mode header{background:#242526;border-bottom:1px solid #3e4042}body.dark-mode .card{box-shadow:0 3px 14px #00000018}body.dark-mode .status{background:#202f42;color:#d7e8ff}body.dark-mode .status.error{background:#442426;color:#ffc9c9}body.dark-mode .status.ok{background:#20372b;color:#a7f3c0}body.dark-mode .notice{background:var(--soft-amber);border-color:#6d5529;color:#f8d68b}body.dark-mode .okpill{background:#20372b;color:#a7f3c0}body.dark-mode .warnpill{background:#3a3020;color:#f8d68b}body.dark-mode .badpill{background:#442426;color:#ffc9c9}body.dark-mode .theme-toggle{background:#3a3b3c;border-color:#65676b;color:#e4e6eb}body.dark-mode .alert-urgent{background:linear-gradient(180deg,#3b2326 0,#242526 70%)}body.dark-mode .alert-low{background:linear-gradient(180deg,#3a3020 0,#242526 70%)}body.dark-mode .alert-tomorrow{background:linear-gradient(180deg,#202f42 0,#242526 70%)}body.dark-mode .alert-overdue{background:linear-gradient(180deg,#402326 0,#242526 70%)}body.dark-mode .alert-today{background:linear-gradient(180deg,#203733 0,#242526 70%)}
+@media(max-width:600px){.site-header{align-items:flex-start;flex-direction:column}.site-header h1{font-size:19px}.card{padding:12px}button{padding:9px 11px}.alerts-grid{grid-template-columns:1fr}}
+@media print{body{background:white;color:#172033}header,#configCard,#authCard,#formCard,.toolbar,.actions,.noprint,.footer,#themeToggle{display:none!important}main{margin:0;max-width:none;padding:0}.card{box-shadow:none;border:0;padding:0;background:white}.tablewrap{overflow:visible}table{min-width:0}th,td{font-size:10px;padding:5px}}
+</style>
+</head>
+<body>
+<header class="site-header"><div><h1>متابعة باقات الكافيهات</h1><p>متابعة الرصيد والتجديد — مزامنة سحابية بين المستخدمين</p></div><div class="site-actions"><button id="toggleConfigBtn" class="theme-toggle hidden" type="button">إعدادات الاتصال</button><button id="themeToggle" class="theme-toggle" type="button" aria-pressed="false">🌙 الوضع الليلي</button></div></header>
+<main>
+<section class="card" id="configCard">
+<h2>1) إعداد الاتصال بـ Supabase</h2>
+<p class="muted">أدخل Project URL وPublishable key من مشروعك. يتم حفظهما في هذا المتصفح فقط. لا تستخدم Secret key أو service_role.</p>
+<div class="grid">
+<div><label for="projectUrl">Project URL</label><input id="projectUrl" placeholder="https://xxxx.supabase.co" autocomplete="url"></div>
+<div><label for="publicKey">Publishable key</label><input id="publicKey" placeholder="sb_publishable_..." autocomplete="off"></div>
+</div>
+<div class="actions"><button id="saveConfig">حفظ الاتصال</button><button class="secondary" id="testConnection">اختبار الاتصال</button><button class="secondary" id="clearConfig">مسح الإعدادات من هذا المتصفح</button></div>
+<div class="muted" style="margin-top:8px">لأمان البيانات، لا تشارك هذا الجهاز مع أشخاص غير موثوقين، وسجّل الخروج بعد الانتهاء.</div>
+</section>
+
+<section class="card hidden" id="authCard">
+<h2>2) تسجيل الدخول</h2>
+<div class="grid">
+<div><label for="email">البريد الإلكتروني</label><input id="email" type="email" autocomplete="username" placeholder="name@example.com"></div>
+<div><label for="password">كلمة المرور</label><input id="password" type="password" autocomplete="current-password" placeholder="كلمة المرور"></div>
+</div>
+<div class="actions"><button id="loginBtn">تسجيل الدخول</button><button class="secondary" id="resetBtn">إرسال رابط إعادة تعيين كلمة المرور</button></div>
+<p class="muted">إنشاء الحساب قد يتطلب تأكيد البريد الإلكتروني حسب إعدادات Authentication في Supabase.</p>
+</section>
+
+<div id="message" class="status hidden" role="status"></div>
+
+<section class="card hidden" id="appCard">
+<div class="toolbar">
+<div><strong id="userLabel"></strong><div class="muted" id="syncLabel">جارٍ الاتصال...</div></div>
+<div style="flex:0 0 auto"><button class="secondary" id="logoutBtn">تسجيل الخروج</button></div>
+</div>
+<div class="stats" style="margin-top:14px">
+<div class="stat"><strong id="countAll">0</strong><span>إجمالي الكافيهات</span></div>
+<div class="stat"><strong id="countWarn">0</strong><span>أقل من 70 جيجا</span></div>
+<div class="stat"><strong id="countUrgent">0</strong><span>أقل من 20 جيجا</span></div>
+<div class="stat"><strong id="countRenew">0</strong><span>التجديد بكرة</span></div>
+<div class="stat"><strong id="countOverdue">0</strong><span>التجديد اللي فات</span></div>
+</div>
+<div id="alerts" style="margin-top:10px"></div>
+</section>
+
+<section class="card hidden" id="formCard">
+<h2 id="formTitle">إضافة كافيه / باقة</h2>
+<input type="hidden" id="editId">
+<div class="grid">
+<div><label for="cafeName">اسم الكافيه *</label><input id="cafeName" required maxlength="150" placeholder="اسم الكافيه"></div>
+<div><label for="phone">رقم التواصل (اختياري)</label><input id="phone" maxlength="60" placeholder="رقم الهاتف"></div>
+
+<div><label for="remainingGb">المتبقي بالجيجا *</label><input id="remainingGb" type="number" min="0" step="0.01" required placeholder="مثال: 65"></div>
+<div><label for="renewalDate">تاريخ التجديد</label><input id="renewalDate" type="date"></div>
+<div><label for="notes">ملاحظات</label><input id="notes" maxlength="1000" placeholder="ملاحظات اختيارية"></div>
+<div class="checkline"><input id="disableAlerts" type="checkbox"><label for="disableAlerts">استثناء هذا الكافيه من التنبيهات (يظهر في القائمة فقط)</label></div>
+</div>
+<div class="actions"><button id="saveCafe">حفظ الكافيه</button><button class="secondary" id="cancelEdit">إلغاء</button></div>
+</section>
+
+<section class="card hidden" id="listCard">
+<h2>قائمة الكافيهات</h2>
+<div class="toolbar noprint">
+<div><label for="search">بحث بالاسم أو الهاتف</label><input id="search" placeholder="اكتب للبحث..."></div>
+<div><label for="filter">فلترة</label><select id="filter"><option value="all">كل الكافيهات</option><option value="urgent">أقل من 20 جيجا</option><option value="warn">أقل من 70 جيجا</option><option value="tomorrow">التجديد بكرة</option><option value="today">التجديد اليوم</option><option value="overdue">موعد التجديد فات</option><option value="renew">التجديد اليوم أو بكرة</option></select></div>
+<div><label for="sortBy">ترتيب القائمة</label><select id="sortBy"><option value="nameAsc">اسم الكافيه: أ إلى ي</option><option value="nameDesc">اسم الكافيه: ي إلى أ</option><option value="remainingAsc">أقل رصيد أولًا</option><option value="remainingDesc">أعلى رصيد أولًا</option><option value="renewalAsc">أقرب موعد تجديد أولًا</option><option value="renewalDesc">أبعد موعد تجديد أولًا</option></select></div>
+</div>
+<div class="actions noprint">
+<button id="printBtn">طباعة التقرير</button><button class="secondary" id="csvBtn">تصدير CSV</button><button class="secondary" id="refreshBtn">تحديث القائمة</button>
+</div>
+<div class="tablewrap" style="margin-top:12px"><table><thead><tr><th>الكافيه</th><th>الهاتف</th><th>المتبقي</th><th>موعد التجديد</th><th>الحالة</th><th>ملاحظات</th><th class="noprint">إجراءات</th></tr></thead><tbody id="cafeRows"></tbody></table></div>
+</section>
+<div class="footer">التنبيهات تظهر داخل الموقع عند فتحه. الكافيهات المستثناة من التنبيهات تظل ظاهرة في قائمة الكافيهات.</div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const $ = id => document.getElementById(id);
+let sb = null, cafes = [], channel = null;
+const ALERTS_OFF_MARKER='[[CAFE_ALERTS_DISABLED]]';
+function alertsDisabled(c){return String(c?.notes||'').includes(ALERTS_OFF_MARKER);}
+function visibleNotes(value){return String(value||'').replace(/\s*\[\[CAFE_ALERTS_DISABLED\]\]\s*/g,'').trim();}
+function notesForStorage(value,disabled){const note=visibleNotes(value);return (disabled?[note,ALERTS_OFF_MARKER].filter(Boolean).join('\n'):note)||null;}
+const configKey='cafe_tracker_supabase_config_v1';
+const themeKey='cafe_tracker_theme_v1';
+function setTheme(theme){const dark=theme==='dark';document.body.classList.toggle('dark-mode',dark);const btn=$('themeToggle');btn.textContent=dark?'☀️ الوضع الفاتح':'🌙 الوضع الليلي';btn.setAttribute('aria-pressed',String(dark));try{localStorage.setItem(themeKey,dark?'dark':'light');}catch(e){}}
+function initTheme(){let saved='light';try{saved=localStorage.getItem(themeKey)||'light';}catch(e){}setTheme(saved==='dark'?'dark':'light');}
+$('themeToggle').onclick=()=>setTheme(document.body.classList.contains('dark-mode')?'light':'dark');
+initTheme();
+function msg(text,type=''){ $('message').textContent=text; $('message').className='status '+type; $('message').classList.remove('hidden'); }
+function clearMsg(){ $('message').classList.add('hidden'); }
+function todayISO(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function daysUntil(date){if(!date)return null;const a=new Date(todayISO()+'T00:00:00');const b=new Date(date+'T00:00:00');return Math.round((b-a)/86400000);}
+function fmt(v){return v===null||v===undefined||v===''?'—':Number.isFinite(Number(v))?Number(v).toLocaleString('en-US',{maximumFractionDigits:2}):String(v);}
+function statusFor(c){if(alertsDisabled(c))return ['التنبيهات متوقفة','okpill'];const d=daysUntil(c.renewal_date);if(Number(c.remaining_gb)<20)return ['عاجل: أقل من 20 جيجا','badpill'];if(Number(c.remaining_gb)<70)return ['تحذير: أقل من 70 جيجا','warnpill'];if(d!==null&&d<=1&&d>=0)return ['التجديد اليوم أو غدًا','warnpill'];if(d!==null&&d<0)return ['موعد التجديد فات','badpill'];return ['جيد','okpill'];}
+function showApp(show){['appCard','formCard','listCard'].forEach(id=>$(id).classList.toggle('hidden',!show));$('authCard').classList.toggle('hidden',show); }
+function loadConfig(){try{const c=JSON.parse(localStorage.getItem(configKey)||'{}');$('projectUrl').value=c.url||'';$('publicKey').value=c.key||'';if(c.url&&c.key)connect(c.url,c.key,false);}catch(e){}}
+$('toggleConfigBtn').onclick=()=>{const willShow=$('configCard').classList.contains('hidden');$('configCard').classList.toggle('hidden',!willShow);$('toggleConfigBtn').textContent=willShow?'إخفاء إعدادات الاتصال':'إعدادات الاتصال';if(willShow)$('configCard').scrollIntoView({behavior:'smooth',block:'start'});};
+async function connect(url,key,showMessage=true){
+  url=url.trim().replace(/\/+$/,'');key=key.trim();
+  if(!/^https:\/\/[a-zA-Z0-9-]+\.supabase\.co$/.test(url)){msg('تأكد أن Project URL صحيح ويبدأ بـ https:// وينتهي بـ supabase.co','error');return;}
+  if(!key){msg('أدخل Publishable key.','error');return;}
+  if(!window.supabase){msg('تعذر تحميل مكتبة الاتصال. تحقق من الإنترنت ثم أعد تحميل الصفحة.','error');return;}
+  try{
+    sb=window.supabase.createClient(url,key);
+    const {data:{session},error}=await sb.auth.getSession();if(error)throw error;
+    $('configCard').classList.add('hidden');$('toggleConfigBtn').classList.remove('hidden');$('toggleConfigBtn').textContent='إعدادات الاتصال';
+    $('authCard').classList.remove('hidden');
+    if(session) await onLoggedIn(session);
+    else {showApp(false);if(showMessage)msg('تم حفظ إعداد الاتصال. سجّل الدخول للمتابعة.','ok');}
+  }catch(e){$('configCard').classList.remove('hidden');$('toggleConfigBtn').classList.remove('hidden');$('toggleConfigBtn').textContent='إخفاء إعدادات الاتصال';msg('تعذر الاتصال: '+e.message,'error');}
+}
+$('saveConfig').onclick=()=>{const c={url:$('projectUrl').value.trim().replace(/\/+$/,''),key:$('publicKey').value.trim()};localStorage.setItem(configKey,JSON.stringify(c));connect(c.url,c.key,true);};
+$('testConnection').onclick=async()=>{
+  clearMsg();
+  const url=$('projectUrl').value.trim().replace(/\/+$/,'');
+  const key=$('publicKey').value.trim();
+  if(!/^https:\/\/[a-zA-Z0-9-]+\.supabase\.co$/.test(url))return msg('رابط Project URL غير صحيح. انسخه من مشروع Supabase نفسه.','error');
+  if(!key)return msg('أدخل Publishable key أولًا.','error');
+  const btn=$('testConnection');btn.disabled=true;btn.textContent='جارٍ الاختبار...';
+  try{
+    const r=await fetch(url+'/auth/v1/health',{method:'GET',headers:{apikey:key}});
+    const body=await r.text();
+    if(r.ok){msg('الاتصال بخادم Supabase ناجح. خدمة تسجيل الدخول تستجيب. جرّب تسجيل الدخول الآن.','ok');}
+    else{msg('وصلنا إلى الخادم، لكنه أعاد HTTP '+r.status+'. راجع المفتاح وأنه من نفس المشروع. التفاصيل: '+body.slice(0,220),'error');}
+  }catch(e){
+    console.error('Supabase connectivity test failed:',e);
+    msg('المتصفح لم يستطع الوصول إلى خادم Supabase. تأكد من الرابط، وأن المشروع يعمل، ثم جرّب نافذة InPrivate وتعطيل إضافات الحماية/VPN مؤقتًا. التفاصيل: '+(e?.message||String(e)),'error');
+  }finally{btn.disabled=false;btn.textContent='اختبار الاتصال';}
+};
+$('clearConfig').onclick=()=>{localStorage.removeItem(configKey);$('projectUrl').value='';$('publicKey').value='';sb=null;showApp(false);$('authCard').classList.add('hidden');$('configCard').classList.remove('hidden');$('toggleConfigBtn').classList.add('hidden');msg('تم مسح إعدادات الاتصال من هذا المتصفح.');};
+$('loginBtn').onclick=async()=>{
+  clearMsg();
+  if(!sb)return msg('احفظ بيانات الاتصال أولًا.','error');
+  const email=$('email').value.trim(),password=$('password').value;
+  if(!email||!password)return msg('اكتب البريد الإلكتروني وكلمة المرور.','error');
+  const btn=$('loginBtn');btn.disabled=true;btn.textContent='جارٍ تسجيل الدخول...';
+  try{
+    const {data,error}=await sb.auth.signInWithPassword({email,password});
+    if(error){msg(error.message,'error');return;}
+    await onLoggedIn(data.session);
+  }catch(e){
+    console.error('Supabase sign-in request failed:',e);
+    msg('تعذّر الوصول إلى خادم تسجيل الدخول (Failed to fetch). اضغط «اختبار الاتصال» في إعدادات الاتصال. إذا فشل الاختبار فالمشكلة غالبًا في الرابط أو الشبكة أو حجب من المتصفح/VPN؛ وإذا نجح الاختبار، راجع إعدادات Authentication والبريد وكلمة المرور. التفاصيل: '+(e?.message||String(e)),'error');
+  }finally{btn.disabled=false;btn.textContent='تسجيل الدخول';}
+};
+
+$('resetBtn').onclick=async()=>{if(!sb)return msg('احفظ بيانات الاتصال أولًا.','error');const {error}=await sb.auth.resetPasswordForEmail($('email').value.trim());msg(error?error.message:'لو البريد مسجل، سيصلك رابط إعادة تعيين كلمة المرور.',error?'error':'ok');};
+$('logoutBtn').onclick=async()=>{if(sb)await sb.auth.signOut();if(channel){sb.removeChannel(channel);channel=null;}showApp(false);$('authCard').classList.remove('hidden');msg('تم تسجيل الخروج.');};
+async function onLoggedIn(session){$('userLabel').textContent='مسجل الدخول: '+(session.user.email||'مستخدم');showApp(true);clearMsg();await loadData();setupRealtime();}
+async function loadData(){
+ if(!sb)return; $('syncLabel').textContent='جارٍ تحميل البيانات...';
+ const a=await sb.from('cafes').select('*').order('cafe_name');if(a.error){$('syncLabel').textContent='خطأ في تحميل الكافيهات';return msg(a.error.message,'error');}cafes=a.data||[];
+ render();$('syncLabel').textContent='متصل — المزامنة المباشرة مفعّلة';
+}
+function setupRealtime(){if(!sb)return;if(channel)sb.removeChannel(channel);channel=sb.channel('cafe-tracker-changes').on('postgres_changes',{event:'*',schema:'public',table:'cafes'},()=>loadData()).subscribe(status=>{$('syncLabel').textContent=status==='SUBSCRIBED'?'متصل — المزامنة المباشرة مفعّلة':'حالة المزامنة: '+status;});}
+function render(){
+ const q=$('search').value.trim().toLowerCase(), f=$('filter').value, sortBy=$('sortBy').value;
+ const list=cafes.filter(c=>{const match=(c.cafe_name||'').toLowerCase().includes(q)||(c.phone||'').toLowerCase().includes(q);const d=daysUntil(c.renewal_date);const remaining=Number(c.remaining_gb);const filter=f==='all'||(!alertsDisabled(c)&&((f==='urgent'&&remaining<20)||(f==='warn'&&remaining<70)||(f==='tomorrow'&&d===1)||(f==='today'&&d===0)||(f==='overdue'&&d!==null&&d<0)||(f==='renew'&&d!==null&&d>=0&&d<=1)));return match&&filter;}).sort((a,b)=>{
+   // Keep cafes excluded from alerts at the bottom of the main list,
+   // while respecting the selected sorting order within each group.
+   const aAlertsOff=alertsDisabled(a), bAlertsOff=alertsDisabled(b);
+   if(aAlertsOff!==bAlertsOff)return aAlertsOff?1:-1;
+   if(sortBy==='nameAsc'||sortBy==='nameDesc'){
+     const cmp=String(a.cafe_name||'').localeCompare(String(b.cafe_name||''),'ar',{sensitivity:'base'});
+     return sortBy==='nameAsc'?cmp:-cmp;
+   }
+   if(sortBy==='remainingAsc'||sortBy==='remainingDesc'){
+     const av=a.remaining_gb==null||a.remaining_gb===''?null:Number(a.remaining_gb);
+     const bv=b.remaining_gb==null||b.remaining_gb===''?null:Number(b.remaining_gb);
+     const am=av===null||!Number.isFinite(av), bm=bv===null||!Number.isFinite(bv);
+     if(am||bm)return am===bm?0:(am?1:-1);
+     return (sortBy==='remainingAsc'?1:-1)*(av-bv);
+   }
+   if(sortBy==='renewalAsc'||sortBy==='renewalDesc'){
+     const av=a.renewal_date||'', bv=b.renewal_date||'';
+     if(!av||!bv)return av===bv?0:(!av?1:-1);
+     const cmp=av.localeCompare(bv);
+     return sortBy==='renewalAsc'?cmp:-cmp;
+   }
+   return 0;
+ });
+ $('countAll').textContent=cafes.length;
+ $('countWarn').textContent=cafes.filter(c=>!alertsDisabled(c)&&c.remaining_gb!==null&&c.remaining_gb!==''&&Number(c.remaining_gb)<70).length;
+ $('countUrgent').textContent=cafes.filter(c=>!alertsDisabled(c)&&c.remaining_gb!==null&&c.remaining_gb!==''&&Number(c.remaining_gb)<20).length;
+ $('countRenew').textContent=cafes.filter(c=>!alertsDisabled(c)&&daysUntil(c.renewal_date)===1).length;
+ $('countOverdue').textContent=cafes.filter(c=>!alertsDisabled(c)&&(()=>{const d=daysUntil(c.renewal_date);return d!==null&&d<0;})()).length;
+ const low70=cafes.filter(c=>!alertsDisabled(c)&&c.remaining_gb!==null&&c.remaining_gb!==''&&Number(c.remaining_gb)<70);
+ const low20=cafes.filter(c=>!alertsDisabled(c)&&c.remaining_gb!==null&&c.remaining_gb!==''&&Number(c.remaining_gb)<20);
+ const tomorrow=cafes.filter(c=>!alertsDisabled(c)&&daysUntil(c.renewal_date)===1);
+ const overdue=cafes.filter(c=>!alertsDisabled(c)&&(()=>{const d=daysUntil(c.renewal_date);return d!==null&&d<0;})());
+ const today=cafes.filter(c=>!alertsDisabled(c)&&daysUntil(c.renewal_date)===0);
+ function alertGroup(title,icon,items,kind,detailFn){
+   const body=items.length?'<div class="alert-items">'+items.map(c=>'<div class="alert-item"><strong>'+escapeHtml(c.cafe_name||'بدون اسم')+'</strong><span>'+escapeHtml(detailFn(c))+'</span></div>').join('')+'</div>':'<p class="alert-empty">لا يوجد كافيهات في هذه الفئة حاليًا.</p>';
+   return '<section class="alert-group '+kind+'"><h3>'+icon+' '+title+' <span class="alert-count">'+items.length+'</span></h3>'+body+'</section>';
+ }
+ $('alerts').innerHTML='<div class="alerts-grid">'+
+   alertGroup('أقل من 70 جيجا','🟠',low70,'alert-low',c=>'المتبقي: '+fmt(c.remaining_gb)+' جيجا')+
+   alertGroup('أقل من 20 جيجا','🔴',low20,'alert-urgent',c=>'المتبقي: '+fmt(c.remaining_gb)+' جيجا')+
+   alertGroup('التجديد بكرة','📅',tomorrow,'alert-tomorrow',c=>'موعد التجديد: '+(c.renewal_date||'—'))+
+   alertGroup('موعد التجديد فات','⚠️',overdue,'alert-overdue',c=>'كان موعد التجديد: '+(c.renewal_date||'—'))+
+   alertGroup('التجديد اليوم','🗓️',today,'alert-today',c=>'موعد التجديد: '+(c.renewal_date||'—'))+
+ '</div>';
+ $('cafeRows').innerHTML=list.map((c,i)=>{const s=statusFor(c);return `<tr><td><span class="cafe-number">${i+1}</span>${escapeHtml(c.cafe_name)}</td><td>${escapeHtml(c.phone||'—')}</td><td><strong>${fmt(c.remaining_gb)} جيجا</strong></td><td>${escapeHtml(c.renewal_date||'—')}</td><td><span class="pill ${s[1]}">${s[0]}</span></td><td>${escapeHtml(visibleNotes(c.notes)||'—')}</td><td class="noprint"><button class="smallbtn secondary" onclick="editCafe(${c.id})">تعديل</button><button class="smallbtn danger" onclick="deleteCafe(${c.id})">حذف</button></td></tr>`;}).join('')||'<tr><td colspan="7">لا توجد نتائج. أضف كافيه أو غيّر البحث.</td></tr>';
+}
+function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+$('saveCafe').onclick=async()=>{clearMsg();if(!sb)return;const name=$('cafeName').value.trim(),remaining=$('remainingGb').value;if(!name||remaining==='')return msg('اسم الكافيه والمتبقي حقول مطلوبة.','error');const id=$('editId').value;const row={cafe_name:name,phone:$('phone').value.trim()||null,remaining_gb:Number(remaining),renewal_date:$('renewalDate').value||null,notes:notesForStorage($('notes').value,$('disableAlerts').checked),updated_at:new Date().toISOString()};if(!Number.isFinite(row.remaining_gb)||row.remaining_gb<0)return msg('قيمة المتبقي غير صحيحة.','error');const result=id?await sb.from('cafes').update(row).eq('id',Number(id)):await sb.from('cafes').insert(row);if(result.error)return msg(result.error.message,'error');resetForm();msg(id?'تم تحديث بيانات الكافيه.':'تمت إضافة الكافيه.','ok');await loadData();};
+function resetForm(){$('editId').value='';['cafeName','phone','remainingGb','renewalDate','notes'].forEach(id=>$(id).value='');$('disableAlerts').checked=false;$('formTitle').textContent='إضافة كافيه / باقة';$('saveCafe').textContent='حفظ الكافيه';}
+window.editCafe=id=>{const c=cafes.find(x=>x.id===id);if(!c)return;$('editId').value=c.id;$('cafeName').value=c.cafe_name||'';$('phone').value=c.phone||'';$('remainingGb').value=c.remaining_gb??'';$('renewalDate').value=c.renewal_date||'';$('notes').value=visibleNotes(c.notes);$('disableAlerts').checked=alertsDisabled(c);$('formTitle').textContent='تعديل بيانات: '+c.cafe_name;$('saveCafe').textContent='حفظ التعديل';$('formCard').scrollIntoView({behavior:'smooth'});};
+window.deleteCafe=async id=>{const c=cafes.find(x=>x.id===id);if(!c||!confirm('تأكيد حذف الكافيه «'+c.cafe_name+'»؟'))return;const {error}=await sb.from('cafes').delete().eq('id',id);if(error)return msg(error.message,'error');msg('تم حذف الكافيه.','ok');await loadData();};
+$('cancelEdit').onclick=resetForm;
+$('search').oninput=render;$('filter').onchange=render;
+try{const savedSort=localStorage.getItem('cafe_tracker_sort_v1');if(savedSort&&[...$('sortBy').options].some(o=>o.value===savedSort))$('sortBy').value=savedSort;}catch(e){}
+$('sortBy').onchange=()=>{try{localStorage.setItem('cafe_tracker_sort_v1',$('sortBy').value)}catch(e){}render();};
+$('refreshBtn').onclick=loadData;$('printBtn').onclick=()=>window.print();
+$('csvBtn').onclick=()=>{const rows=[['اسم الكافيه','الهاتف','المتبقي','موعد التجديد','ملاحظات'],...cafes.map(c=>[c.cafe_name,c.phone,c.remaining_gb,c.renewal_date,visibleNotes(c.notes)])];const csv='\uFEFF'+rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='تقرير_باقات_الكافيهات.csv';a.click();URL.revokeObjectURL(a.href);};
+loadConfig();
+</script>
+</body></html>
